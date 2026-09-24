@@ -1,0 +1,2 @@
+import{u as i,al as n,C as e}from"#entry";function f(){const t=i();return{asTextLinesArray:r=>e(()=>!r||!t.isFilled.richText(r)?[]:r[0]&&"text"in r[0]?r[0].text.split(`
+`):[]),isRichTextFilled:r=>t.isFilled.richText(r),richTextToWordsArray:r=>e(()=>!r||!t.isFilled.richText(r)?[]:r[0]&&"text"in r[0]?r[0].text.split(/\s+/).filter(s=>s.trim()!==""):[]),joinKeyText:r=>r.filter(s=>n(s)).join(" ")}}export{f as u};

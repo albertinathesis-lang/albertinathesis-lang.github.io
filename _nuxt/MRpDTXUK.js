@@ -1,0 +1,1 @@
+import{D as s}from"#entry";function a(e){const t=e.replace(/-/g,"");return t.startsWith("+")?t:`+${t}`}function r(){const e=s("phone"),t=s("mail"),n=s("address");return{phone:e,email:t,address:n}}export{a as f,r as u};

@@ -1,0 +1,10 @@
+Timeline card images — the photos live INSIDE the original media files
+(media-24/22/19/21.jpg) at their original dimensions, so markup, payload and
+the canvas hover-reveal are untouched. All CC-licensed, via Openverse:
+
+media-24.jpg (2025 Founded)   — University of Luxembourg, Kirchberg Campus | Manis404 | CC BY | https://commons.wikimedia.org/w/index.php?curid=15739511
+media-22.jpg (2026 Research)  — Virtual Reality Demonstrations | UTKnightCenter | CC BY | https://www.flickr.com/photos/131562172@N06/17191398541
+media-21.jpg (2027 Training)  — "the art" (painting workshop) | CC BY | https://www.flickr.com/photos/53921113@N02/9470787086
+
+media-22 is also referenced by the hidden our_services section (invisible).
+media-19.jpg (2026 Incubator) — teamLab Planets | Flickr | CC BY | https://www.flickr.com/photos/30097106@N08/29993137188

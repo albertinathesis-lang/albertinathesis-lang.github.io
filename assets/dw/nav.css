@@ -1,0 +1,132 @@
+/* =========================================================================
+   nav.css — our header, replacing the cloned one.
+
+   The cloned header is NOT edited in place. It lives inside the Nuxt
+   hydration root, so any change to its server markup is discarded the moment
+   Vue hydrates and patches the DOM back to its own render. It is hidden with
+   CSS instead, and this nav is injected as a sibling of #__nuxt where
+   hydration cannot reach it.
+
+   Typography is the reference's own: mono, 13.17px / 17.13px, tracking
+   -0.05em, uppercase, hover to 50% over 0.2s. Roboto Mono 300 stands in for
+   GT America Mono, which is licensed — 300 because Roboto Mono at 400 reads
+   heavier than GT America Mono at 400.
+   ========================================================================= */
+
+@font-face {
+  font-family: "Roboto Mono AAL";
+  src: url("fonts/RobotoMono-300.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+
+/* The cloned header and its drop-down.
+   Made invisible rather than display:none — it runs a GSAP intro on load and
+   the site starts its smooth-scroll library at the end of that sequence.
+   display:none stops the animation running at all, the start call never
+   fires, and the page ends up unable to scroll. It is position:fixed, so
+   leaving it in costs no layout. */
+#__nuxt header {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden;
+}
+
+/* ANCHORED TO THE HERO, not the viewport. position:absolute at the top of
+   the document places it over the hero (which is the first thing in flow)
+   and lets it scroll away WITH the scene — it never follows the page down. */
+.aalnav {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: 30px;
+  align-items: start;
+  pointer-events: none;
+  font-family: "Roboto Mono AAL", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.aalnav__home {
+  grid-column: 1 / 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  pointer-events: auto;
+}
+.aalnav__mark { height: 38px; width: auto; display: block; }
+.aalnav__word {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.aalnav__col { display: flex; flex-direction: column; pointer-events: auto; }
+.aalnav__col--a { grid-column: 8 / 11; }
+.aalnav__col--b { grid-column: 11 / -1; align-items: flex-end; }
+
+.aalnav__link {
+  font-size: 13.17px;
+  line-height: 1.3;
+  letter-spacing: -0.05em;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #e8e6e0;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.aalnav__link:hover { opacity: 0.5; }
+
+/* the substituted glyphs vary in width; lock the resting width so a
+   scrambling link cannot move its neighbours */
+.aalnav__link[data-scrambling] { display: inline-block; width: var(--sw, auto); white-space: pre; }
+
+/* The site runs light sections and dark ones. The nav is mercury by default,
+   and flips to blue over the light ones — set by nav.js from what is actually
+   behind it, because the section order is not fixed. */
+.aalnav.is-dark .aalnav__link,
+.aalnav.is-dark .aalnav__word { color: #1925aa; }
+.aalnav.is-dark .aalnav__mark { filter: brightness(0) saturate(100%) invert(13%) sepia(78%) saturate(3619%) hue-rotate(233deg) brightness(89%) contrast(97%); }
+
+@media (max-width: 1023px) {
+  .aalnav { padding: 0 16px; top: 16px; }
+  .aalnav__home { grid-column: 1 / 8; }
+  .aalnav__col--a, .aalnav__col--b { display: none; }
+}
+
+/* ---- footer logo -> AAL burst --------------------------------------------
+   The cloned footer centres its own compass-circle mark (svg.js-footer-logo,
+   <use href="#circle">). The svg box is kept — the footer's layout and any
+   animation on it stay untouched — but its own drawing is hidden and the
+   AAL burst is painted into the box instead. */
+#__nuxt footer svg.js-footer-logo > * { display: none !important; }
+#__nuxt footer svg.js-footer-logo {
+  background: url("aal-burst-white-hd.png") center / contain no-repeat;
+}
+
+/* ---- dead links, on request ----------------------------------------------
+   Privacy Policy and Terms and Conditions have no pages yet; the timeline
+   milestone cards are information, not navigation. All keep their look but
+   take no clicks. */
+#__nuxt footer a[href="/privacy-policy"],
+#__nuxt footer a[href="/terms-and-conditions"] {
+  pointer-events: none !important;
+  cursor: default;
+}
+/* The timeline cards must NOT lose pointer events — their hover is what
+   reveals each card's image in the square. Navigation is cancelled in
+   nav.js instead. */
+#__nuxt section[data-slice-type="latest_news"] a[href="#timeline"] {
+  cursor: default;
+}
+
+/* the three executive pictures become links (wired in nav.js) */
+#__nuxt section[data-slice-type="projects"] [data-dither-image] { cursor: pointer; }

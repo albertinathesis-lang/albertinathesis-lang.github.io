@@ -1,0 +1,1 @@
+import{f as t,c as n,d as s,i as c,_ as r}from"#entry";import{g as a}from"./CpsPJSKh.js";import{_ as i}from"./DlAUqK2U.js";const p=t({__name:"index",props:a(),setup(_){return(e,m)=>{const o=r;return s(),n("section",null,[c(o,{field:e.slice.primary.content,class:"richtext",wrapper:"section"},null,8,["field"])])}}}),u=i(p,[["__scopeId","data-v-a008b485"]]);export{u as default};

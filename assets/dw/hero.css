@@ -1,0 +1,205 @@
+/* =========================================================================
+   hero.css — the opening: preloader, caption, Explore, then the scene.
+
+   Modelled on the Deep White sequence it replaces:
+     1. a preloader over everything, counting 0-100% while the scene loads
+     2. at 100% it fades and the Explore prompt begins pulsing
+     3. Explore fades the caption and the prompt, and starts the scene
+     4. the scene plays its three phases; at the frame the page is released
+
+   The fades are CSS transitions rather than GSAP tweens. The original used
+   GSAP because the page already had it globally; here GSAP is bundled inside
+   the Nuxt app and not exposed on window, and pulling in a second copy for
+   four opacity fades would be a poor trade.
+
+   The scene itself stays in an iframe: it ships its own GSAP, ScrollSmoother
+   and WebGL renderer, and this page runs Nuxt, Lenis and its own GSAP. Two
+   smooth-scroll libraries in one document fight over the wheel. The iframe
+   boundary settles it. Nothing here depends on that iframe scrolling, which
+   is what made the earlier full-page embed unworkable.
+   ========================================================================= */
+
+.dwhero {
+  position: relative;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: #0d1355;   /* the scene's own clear colour, so the first paint
+                            has nothing to flash against */
+}
+
+#dwhero-scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100svh;
+  border: 0;
+  display: block;
+}
+
+
+
+/* ---- caption ------------------------------------------------------------ */
+.dwhero__caption {
+  position: absolute;
+  left: 48px;
+  bottom: 80px;
+  z-index: 3;
+  margin: 0;
+  max-width: 920px;
+  pointer-events: none;
+  font-family: "Switzer AAL", var(--font-pp-neue), system-ui, sans-serif;
+  font-weight: 300;
+  font-size: 46px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #e8e6e0;
+  opacity: 1;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dwhero.is-exploring .dwhero__caption { opacity: 0; }
+.dwhero.is-started .dwhero__caption { display: none; }
+
+/* ---- explore prompt ----------------------------------------------------- */
+.dwhero__explore {
+  /* Deep White's original placement and dress, taken from its stylesheet:
+     absolute, dead centre of the hero, black block, white DM Sans 20px,
+     sentence case. The earlier bottom-centre mono version was an invention
+     and read as part of the caption area — which is what made the opening
+     look broken. */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  padding: 10px 24px 12px;
+  background: #000;
+  border: 0;
+  cursor: pointer;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #fff;
+  opacity: 0;                       /* revealed only once loading completes */
+  pointer-events: none;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dwhero.is-ready .dwhero__explore {
+  pointer-events: auto;
+  animation: dwhero-pulse 2s ease-in-out infinite;
+}
+.dwhero.is-exploring .dwhero__explore,
+.dwhero.is-started .dwhero__explore { animation: none; opacity: 0; pointer-events: none; }
+
+@keyframes dwhero-pulse { 0%,100% { opacity: 0.35 } 50% { opacity: 1 } }
+
+/* ---- preloader ---------------------------------------------------------- */
+.dwpre {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #0d1355;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  opacity: 1;
+  transition: opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dwpre.is-done { opacity: 0; pointer-events: none; }
+.dwpre.is-gone { display: none; }
+
+.dwpre__mark { width: 96px; height: auto; display: block; }
+
+.dwpre__track { width: 223px; height: 2px; background: rgba(232, 230, 224, 0.3); }
+.dwpre__bar { width: 0; height: 100%; background: #e8e6e0; transition: width 0.3s linear; }
+
+.dwpre__pct {
+  font-family: "Roboto Mono AAL", ui-monospace, monospace;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #e8e6e0;
+}
+
+
+/* the page must not scroll away from the scene while it is playing */
+html.dwhero-lock, html.dwhero-lock body { overflow: hidden !important; height: 100%; }
+
+@media (max-width: 1023px) {
+  .dwhero__caption { left: 16px; right: 16px; bottom: 96px; font-size: 28px; }
+}
+
+/* ---- the cloned site's OWN opening ---------------------------------------
+   That build starts with its own full-height hero — the big wordmark over a
+   dithered image. With our frame scene in front of it the page opened twice.
+   Only one section carries .h-100svh, so this is unambiguous.
+
+   COLLAPSED, NOT display:none.
+   Both this section and the header run GSAP intros on load, and the site
+   starts its smooth-scroll library from the end of that sequence. With
+   display:none those animations never run, the start call never fires, and
+   the page is left with scrolling disabled — wheel input does nothing,
+   which is what "it stops and will not scroll up" was.
+   Collapsing to zero height keeps them rendered and animating while taking
+   no space and showing nothing. */
+#__nuxt main section.h-100svh {
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ---- after the hero is done ----------------------------------------------
+   The scene is an iframe, and an iframe eats the wheel: with the pointer over
+   it, wheel events go to ITS document, not this one. Once the page has been
+   released that made scrolling back UP impossible — the hero sat at the top
+   of the page silently swallowing every upward gesture. Once released it is
+   inert and the wheel belongs to the page again. */
+.dwhero.is-released iframe { pointer-events: none; }
+
+/* ---- the cloned site's OWN preloader -------------------------------------
+   A fixed inset-0 overlay (aria-busy) carrying the spinning compass logo and
+   "AIARTLAB .LU" — it was revealed the moment our preloader faded, and is
+   the "second beginning" that kept appearing. Its completion drives nothing:
+   the site's boot emits LOADER_COMPLETE from a timeout, not from this
+   component, so it can be made invisible safely. Kept rendered (not
+   display:none) so any internal measuring it does still works. */
+#__nuxt div[aria-busy="true"].fixed {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* ---- "Our Programs" removed on request -----------------------------------
+   Same treatment as the cloned hero: collapsed, not display:none, so any
+   intro animation bound to it still runs and nothing that gates the site's
+   boot can hang on it. */
+#__nuxt main section[data-slice-type="our_services"] {
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* ---- home_process hairlines ----------------------------------------------
+   The section draws a decorative full-height column with 1px blue rules on
+   both edges (.b-x.b-blue, row-span-full). With AAL's longer heading —
+   "Four projects, one premise." — the left rule slices straight through
+   "premise." (and the right one through the "Research" label). The clone's
+   own copy was short enough to clear them; ours is not, so the rules go. */
+#__nuxt section[data-slice-type="home_process"] div.b-x.b-blue {
+  border-left: 0 !important;
+  border-right: 0 !important;
+}

@@ -1,0 +1,1 @@
+import{f as o,A as a,Z as t,d as r,n as _,K as p,a7 as c}from"#entry";const l=o({__name:"Bounded",props:{as:{default:"section"}},setup(d,{expose:n}){const e=a("el");return n({el:e}),(s,f)=>(r(),t(p(s.as),{ref_key:"el",ref:e,class:"px-15"},{default:_(()=>[c(s.$slots,"default")]),_:3},512))}}),u=Object.assign(l,{__name:"Bounded"});export{u as _};

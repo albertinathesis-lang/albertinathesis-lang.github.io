@@ -1,0 +1,150 @@
+/* =========================================================================
+   people.css — the People grid: three rows of portrait cards.
+
+   Built by people.js after hydration, inside the "testimonials" slice
+   (the section headed PEOPLE [AAL.3]). The cards are the Executive Team
+   cards at a smaller scale: mono index row, portrait through the dither
+   canvas, name, position. Column rhythm follows the site's my-grid
+   (12 columns at 1024px, 4 cards a row -> 11 people in three rows).
+   ========================================================================= */
+
+/* the quote carousel this grid replaces */
+.dwpeople-hidden { display: none !important; }
+
+.dwpeople {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: calc(var(--spacing) * 10);
+  row-gap: 56px;
+  padding: 56px 0 24px;
+}
+@media (min-width: 640px) {
+  .dwpeople { column-gap: calc(var(--spacing) * 12.5); }
+}
+@media (min-width: 1024px) {
+  .dwpeople {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: calc(var(--spacing) * 15);
+    row-gap: 80px;
+    padding: 72px 0 120px;
+  }
+}
+
+.dwpeople__card {
+  position: relative;
+  color: var(--colors-blue);
+  padding-left: 12px;
+  border-left: 1px solid var(--colors-blue);
+}
+/* reveal: the words rise in; the portrait is revealed by its canvas plane.
+ * The picture box itself is never transformed — the plane measures its
+ * rect once, and a translated box would leave the plane 18px adrift. */
+.dwpeople__meta, .dwpeople__name, .dwpeople__role {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .8s cubic-bezier(.165, .84, .44, 1),
+              transform .8s cubic-bezier(.165, .84, .44, 1);
+}
+.dwpeople__card.is-in .dwpeople__meta,
+.dwpeople__card.is-in .dwpeople__name,
+.dwpeople__card.is-in .dwpeople__role { opacity: 1; transform: none; }
+@media (min-width: 1024px) {
+  .dwpeople__card { grid-column: span 3; padding-left: 15px; }
+}
+
+/* the Advisory Board header: the section's own header row, cloned, with
+ * a clear break above it so the two groups read as two */
+.dwpeople__head { margin-top: 96px; }
+@media (min-width: 1024px) { .dwpeople__head { margin-top: 140px; } }
+.dwpeople + .dwpeople__head { padding-top: 0; }
+.dwpeople:not(:last-child) { padding-bottom: 0; }
+
+/* index row — the exec cards' "01 / CEO" line, here just the index */
+.dwpeople__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-gta-mono);
+  font-weight: 400;
+  font-size: .75rem;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* portrait — same 385:260 box as the exec cards; the canvas draws into it */
+.dwpeople__pic {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 20px;
+  aspect-ratio: 385 / 260;
+}
+.dwpeople__pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  visibility: hidden;                  /* the dither plane paints it */
+}
+/* the arrow button, as on the exec cards, at 44px instead of 60px */
+.dwpeople__btn {
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 2.75rem; height: 2.75rem;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--colors-white);
+  border: .5px solid var(--colors-blue);
+  transform: scale(0);
+  transform-origin: bottom right;
+  will-change: transform;
+  transition: transform .5s cubic-bezier(.165, .84, .44, 1);   /* power4.out */
+}
+.dwpeople__btn svg {
+  width: 53%; height: 53%;
+  color: var(--colors-blue);
+  fill: currentColor;
+  transform: scale(0);
+  transform-origin: center;
+  transition: transform .4s cubic-bezier(.165, .84, .44, 1) .1s;
+}
+.dwpeople__link { position: absolute; inset: 0; z-index: 1; }
+.dwpeople__card.is-hover .dwpeople__btn,
+.dwpeople__card.is-hover .dwpeople__btn svg { transform: scale(1); }
+
+.dwpeople__name {
+  margin: 18px 0 0;
+  font-family: var(--font-pp-neue);
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+@media (min-width: 1024px) { .dwpeople__name { font-size: 1.375rem; } }
+.dwpeople__role {
+  margin-top: 8px;
+  font-family: var(--font-gta-mono);
+  font-weight: 400;
+  font-size: .75rem;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* The dither canvas is a fixed layer BEHIND the page (see `.canvas`,
+ * z-index -1): a plane shows only where nothing is painted over it. The
+ * exec cards sit on the bare mercury ground; this section shipped with a
+ * white ground, which would hide every portrait. Same ground as the exec
+ * section, then, with the same top hairline to mark the section. */
+section[data-slice-type="testimonials"] {
+  background: transparent !important;
+  border-top: 1px solid var(--colors-blue);
+  margin-left: calc(var(--spacing) * 15);
+  margin-right: calc(var(--spacing) * 15);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* the group labels scramble in with nav.js's effect; lock the resting
+ * width while it runs, as nav.css does for the links */
+.dwpeople__label[data-scrambling] { display: inline-block; width: var(--sw, auto); white-space: pre; }
