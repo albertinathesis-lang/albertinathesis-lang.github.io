@@ -96,10 +96,16 @@
 .aalnav.is-dark .aalnav__word { color: #1925aa; }
 .aalnav.is-dark .aalnav__mark { filter: brightness(0) saturate(100%) invert(13%) sepia(78%) saturate(3619%) hue-rotate(233deg) brightness(89%) contrast(97%); }
 
+/* Below the desktop breakpoint the two link columns become one compact
+   column on the right, one link per line, right-aligned. Same links, same
+   effect; nothing to open. Works down to phone width. */
 @media (max-width: 1023px) {
-  .aalnav { padding: 0 16px; top: 16px; }
-  .aalnav__home { grid-column: 1 / 8; }
-  .aalnav__col--a, .aalnav__col--b { display: none; }
+  .aalnav { padding: 0 16px; top: 16px; grid-template-columns: 1fr auto; column-gap: 16px; }
+  .aalnav__home { grid-column: 1; }
+  .aalnav__mark { height: 32px; }
+  .aalnav__word { font-size: 18px; }
+  .aalnav__col--a, .aalnav__col--b { grid-column: 2; align-items: flex-end; }
+  .aalnav__link { font-size: 12px; line-height: 1.35; }
 }
 
 /* ---- footer logo -> AAL burst --------------------------------------------
