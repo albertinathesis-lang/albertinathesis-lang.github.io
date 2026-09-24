@@ -184,6 +184,22 @@
         window.open(EXEC_LINKS[i], '_blank', 'noopener');
     });
 
+    /* ---- outbound links -----------------------------------------------
+     * Every link that opens a new tab gets rel="noopener noreferrer" at the
+     * moment it is used, whichever layer rendered it (the clone's Vue
+     * markup, the payload, or ours). noopener stops the opened page from
+     * reaching back to this one; noreferrer keeps the visitor's path here
+     * out of the other site's logs. Runs on pointerdown so middle-click and
+     * cmd-click are covered as well as click. */
+    function harden(e) {
+      var a = e.target.closest && e.target.closest('a[target="_blank"], a[href^="http"]');
+      if (!a) return;
+      if (a.target === '_blank' || a.host !== location.host)
+        a.rel = 'noopener noreferrer';
+    }
+    document.addEventListener('pointerdown', harden, true);
+    document.addEventListener('click', harden, true);
+
     window.__aalnav = { scramble, stop };
   }
 
