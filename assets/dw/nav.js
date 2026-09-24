@@ -184,6 +184,25 @@
         window.open(EXEC_LINKS[i], '_blank', 'noopener');
     });
 
+    /* ---- legal pages ----------------------------------------------------
+     * Privacy Policy and Terms are static pages of their own, outside the
+     * Nuxt app. The footer links to them are router links, which would try
+     * to resolve the path inside the app (and fail). Caught in the capture
+     * phase, ahead of the router, and turned into a real navigation. */
+    var LEGAL = { '/privacy-policy': '/privacy-policy/', '/terms-and-conditions': '/terms-and-conditions/' };
+    document.addEventListener('click', function (e) {
+      // the click may land on the link, or on the wrapper span the site's
+      // reveal puts around it (the link's own box does not take the hit)
+      var t = e.target;
+      var a = (t.closest && t.closest('a[href]')) ||
+              (t.querySelector && t.querySelector('a[href="/privacy-policy"], a[href="/terms-and-conditions"]'));
+      if (!a) return;
+      var to = LEGAL[a.getAttribute('href')];
+      if (!to) return;
+      e.preventDefault(); e.stopPropagation();
+      window.location.href = to;
+    }, true);
+
     /* ---- outbound links -----------------------------------------------
      * Every link that opens a new tab gets rel="noopener noreferrer" at the
      * moment it is used, whichever layer rendered it (the clone's Vue
