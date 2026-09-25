@@ -68,3 +68,36 @@ footer form[aria-label="Newsletter subscription"] #newsletter-error {
   font-size: .75rem;
   line-height: 1.4;
 }
+
+/* ---- Introduction paragraph, a step larger ------------------------------
+   The clone sets it at 26px, 46px from the desktop breakpoint. The nuxt
+   classes cannot be edited in the markup (hydration keeps its own), so the
+   size is raised here instead. Line-height stays the reference's 1. */
+#__nuxt section[data-slice-type="home_intro"] .font-pp-neue.fs-26 { font-size: 30px !important; }
+@media (min-width: 1024px) {
+  #__nuxt section[data-slice-type="home_intro"] .font-pp-neue.fs-26 { font-size: 52px !important; }
+}
+
+/* ---- Stay In Touch removed; footer height and column lines kept ---------
+   The block sat in the right column's middle row with no left border and a
+   12-unit inset, so that column's line broke there; the empty list beside
+   it (left column, same row) is border-less too. Below the desktop
+   breakpoint the block is simply gone. From the breakpoint it stays in the
+   grid as an invisible spacer so nothing below it moves: its margins become
+   padding so the line runs through them, it takes the column's border and
+   inset, and its contents are hidden. The empty list gets its border back
+   and loses its top margin, so the left line is continuous as well. */
+footer nav.footer-text > div { display: none; }
+@media (min-width: 1024px) {
+  footer nav.footer-text > div {
+    display: block;
+    margin: 0 !important;
+    padding: calc(var(--spacing) * 32) 0 calc(var(--spacing) * 34) calc(var(--spacing) * 12) !important;
+    border-left: 1px solid var(--colors-mercury);
+  }
+  footer nav.footer-text > div > * { visibility: hidden; }
+  footer nav.footer-text > ul:nth-of-type(3) {
+    border-left: 1px solid var(--colors-mercury) !important;
+    margin-top: 0 !important;
+  }
+}
