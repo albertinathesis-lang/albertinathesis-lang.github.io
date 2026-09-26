@@ -3,7 +3,7 @@
    (the footer is rendered by Nuxt from the payload, so markup is not
    edited in place):
 
-     - the LinkedIn link becomes vava.studio
+     - the LinkedIn link becomes the lab mailbox, info@aiartlab.lu
      - the www.vava.studio line under Privacy / Terms (and its mobile twin)
        becomes "Luxembourg" with the flag
      - the Stay In Touch box gets a terminal-style block cursor, drawn right
@@ -40,8 +40,8 @@
     footer.querySelectorAll('a[href*="linkedin.com"]').forEach(function (a) {
       replace(a, function () {
         var b = document.createElement('a');
-        b.href = 'https://www.vava.studio'; b.target = '_blank'; b.rel = 'noopener';
-        b.textContent = 'vava.studio';
+        b.href = 'mailto:info@aiartlab.lu';
+        b.textContent = 'info@aiartlab.lu';
         return b;
       });
     });
