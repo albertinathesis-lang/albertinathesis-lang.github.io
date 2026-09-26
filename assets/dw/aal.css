@@ -101,3 +101,11 @@ footer nav.footer-text > div { display: none; }
     margin-top: 0 !important;
   }
 }
+
+/* ---- Footer: Privacy Policy / Terms links parked ------------------------
+   The two pages are drafts in legal-drafts/ (not deployed) until the
+   registered address and register number are in. The column keeps its
+   fixed height and is bottom-aligned, so the vava.studio line does not
+   move. To bring the pages back: move them into site/, delete this rule. */
+.footer-list li:has(> span > a[href="/privacy-policy"]),
+.footer-list li:has(> span > a[href="/terms-and-conditions"]) { display: none; }

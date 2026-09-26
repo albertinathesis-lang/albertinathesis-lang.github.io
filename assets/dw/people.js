@@ -33,16 +33,16 @@
       ['Reza Farhadifar', 'Scientific Advisor', 'people-04-reza-farhadifar.jpg', LI + 'reza-farhadifar-41271a31/']
     ] },
     { label: 'Advisory Board', tag: '[AAL.4]', people: [
-      ['Nathalie Magniez', 'Technologist, STMicroelectronics', 'people-14-nathalie-magniez.jpg', LI + 'nathaliemagniez/'],
-      ['Laura Tiuca', 'Senior legal executive, AI governance', 'people-15-laura-tiuca.jpg', LI + 'laura-tiuca-79929a2/'],
-      ['Richard Reitknecht', 'Investor and arts patron', 'people-08-richard-reitknecht.jpg', LI + 'richard-reitknecht-7423b91/'],
-      ['Jack Silver', 'Investor and arts patron', 'people-07-jack-silver.jpg', LI + 'jack-silver-29954564/'],
-      ['Marc de Bourcy', 'Diplomat and cultural advisor', 'people-11-marc-de-bourcy.jpg', LI + 'marc-de-bourcy-28b528/'],
+      ['Nathalie Magniez', 'Technologist & semiconductor industry expert', 'people-14-nathalie-magniez.jpg', LI + 'nathaliemagniez/'],
+      ['Laura Tiuca', 'Senior legal executive & AI governance expert', 'people-15-laura-tiuca.jpg', LI + 'laura-tiuca-79929a2/'],
+      ['Richard Reitknecht', 'Investor & arts patron', 'people-08-richard-reitknecht.jpg', LI + 'richard-reitknecht-7423b91/'],
+      ['Jack Silver', 'Investor & arts patron', 'people-07-jack-silver.jpg', LI + 'jack-silver-29954564/'],
+      ['Marc de Bourcy', 'Diplomat & cultural advisor', 'people-11-marc-de-bourcy.jpg', LI + 'marc-de-bourcy-28b528/'],
       ['Ken Tabachnick', 'Arts executive', 'people-09-ken-tabachnick.jpg', LI + 'ken-tabachnick-96671311/'],
-      ['Rika Nakazawa', 'Technologist and author', 'people-05-rika-nakazawa.jpg', LI + 'rikanakazawa/'],
+      ['Rika Nakazawa', 'Technologist & author', 'people-05-rika-nakazawa.jpg', LI + 'rikanakazawa/'],
       ['Eric Wright', 'Arts executive', 'people-10-eric-wright.jpg', LI + 'eric-d-wright7/'],
       ['Lorenzo Da Pra Galanti', 'International corporate attorney', 'people-06-lorenzo-da-pra-galanti.jpg', LI + 'lorenzo-da-pra-galanti-b019655/'],
-      ['Dieter Fuchs', 'Political scientist and author', 'people-13-dieter-fuchs.jpg', 'https://www.researchgate.net/profile/Dieter-Fuchs']   // no LinkedIn; ResearchGate
+      ['Dieter Fuchs', 'Political scientist & author', 'people-13-dieter-fuchs.jpg', 'https://www.researchgate.net/profile/Dieter-Fuchs']   // no LinkedIn; ResearchGate
     ] }
   ];
   var MEDIA = '/assets/media/';        // absolute, like the exec cards (see README deploy notes)
