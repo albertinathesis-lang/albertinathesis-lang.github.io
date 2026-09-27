@@ -1,11 +1,11 @@
 /* =========================================================================
    hero.js — the opening sequence.
 
-   Follows the Deep White original:
+   How the sequence is wired:
 
      progress   the scene posts threejs-scene-progress {progress} while it
                 loads; that is blended with the host page's own load event,
-                exactly as the original blended iframe and parent progress,
+                the iframe and the parent progress blended together,
                 so the counter cannot reach 100% before either is ready
      ready      at 100% the preloader fades and Explore starts pulsing
      explore    Explore fades itself and the caption, then tells the scene to

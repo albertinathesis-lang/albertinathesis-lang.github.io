@@ -3,7 +3,7 @@
    scene and revealed only on the approach into the frame.
 
    WHAT THE EFFECT ACTUALLY IS
-   Modelled on the Outsource Consulting header. Two parts:
+   A classic ordered-dither header treatment. Two parts:
 
      the dotty    an 8x8 Bayer ordered dither, hard-thresholded to exactly
                   two colours: mix(dark, light, step(threshold, luminance)).
@@ -57,7 +57,7 @@
   // triples the contrast and the picture snaps into harsh posterised blocks —
   // which is exactly what went wrong before.
   const CFG = {
-    dark:  hex('#1925aa'),   // OCI blue
+    dark:  hex('#1925aa'),   // the site blue
     light: hex('#b7b9d3'),   // pale lavender-grey, per the reference
     scale: 1.0,              // device px per Bayer cell — the reference's finest
     bias: 0.10,
@@ -211,23 +211,12 @@ vec3 dwDither(vec3 col){
     const scene = window.__dwScene;
     if (!scene) return setTimeout(start, 150);
 
-    // The frame's museum label — "Wonderful Achievement (2024) / Giacomo
-    // Merri" — is baked into the glb as three meshes: the card and its two
-    // text lines. It belongs to Deep White's fiction, not this site, so it
-    // is hidden whenever it appears.
-    const PLAQUE = new Set(['label', 'Text', 'Text001']);
-    function hidePlaque(root) {
-      root.traverse(o => { if (o.isMesh && PLAQUE.has(o.name)) o.visible = false; });
-    }
-
     walk(scene);
-    hidePlaque(scene);
     // the glb arrives asynchronously and may bring more meshes; re-walk for a
     // while. patchMaterial is idempotent, so repeats cost nothing.
     let n = 0;
     const rescan = setInterval(() => {
       walk(scene);
-      hidePlaque(scene);
       if (++n > 40) clearInterval(rescan);
     }, 250);
 

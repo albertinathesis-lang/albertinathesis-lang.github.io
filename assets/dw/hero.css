@@ -1,7 +1,7 @@
 /* =========================================================================
    hero.css — the opening: preloader, caption, Explore, then the scene.
 
-   Modelled on the Deep White sequence it replaces:
+   The sequence:
      1. a preloader over everything, counting 0-100% while the scene loads
      2. at 100% it fades and the Explore prompt begins pulsing
      3. Explore fades the caption and the prompt, and starts the scene
@@ -63,7 +63,7 @@
 
 /* ---- explore prompt ----------------------------------------------------- */
 .dwhero__explore {
-  /* Deep White's original placement and dress, taken from its stylesheet:
+  /* Placement and dress:
      absolute, dead centre of the hero, black block, white DM Sans 20px,
      sentence case. The earlier bottom-centre mono version was an invention
      and read as part of the caption area — which is what made the opening
